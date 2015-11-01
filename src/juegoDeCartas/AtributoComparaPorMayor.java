@@ -2,18 +2,23 @@ package juegoDeCartas;
 
 public class AtributoComparaPorMayor extends Atributo {
 
-	//Usa constructor de la clase Abstrasta que hereda
+	
 	public AtributoComparaPorMayor(String nombre, float valor) {
 		super(nombre, valor);
 	}
 	
-	//Implementa el Comparar por Mayor
 	public int comparar(Atributo o) {
+		System.out.print(this.toString()+" : "+o.toString());
 		int resultado=0;
 		if(this.getValor()>o.getValor())
 			resultado=1;
 		if(this.getValor()<o.getValor())
 			resultado= -1;
 		return resultado;
+	}
+	
+	//
+	public Atributo clone(){
+		return new AtributoComparaPorMayor(this.getNombre(),this.getValor());
 	}
 }

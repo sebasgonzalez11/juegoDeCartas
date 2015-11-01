@@ -4,7 +4,7 @@ import java.util.*;
 public class Mazo {
 	private ArrayList<Carta> cartas;
 	
-	//Constructores
+
 	public Mazo(){
 		cartas=new ArrayList<Carta>();
 	}
@@ -12,8 +12,7 @@ public class Mazo {
 		if(this.sonValidas(cartas))
 			this.cartas=cartas;
 	}
-	
-	//METODO PRIVADO COMPRUEBA EL MAZO ANTES DE LA CONSTRUCCION
+
 	private boolean sonValidas(ArrayList<Carta> cartas){
 		Carta referencia=cartas.get(0);
 		for(int i=1;i<cartas.size();i++){
@@ -25,35 +24,32 @@ public class Mazo {
 		return true;
 	}
 	
-	//Retorna la primer carta del mazo
+
 	public Carta getPrimerCarta(){
 		if(!this.isEmpty())
 			return this.cartas.get(0);
 		else return null;
 	}
 	
-	//Remueve la primer Carta del ArrayList - Ojo
+
 	public void removerCarta(){
-		if(!this.isEmpty())
-			this.cartas.remove(0);
-		else
-			System.out.println("EL MAZO ESTA VACIO");
+		this.cartas.remove(0);
 	}
 	
-	//Agrega un Mazo a mi Mazo
+
 	public void addPozo(Mazo mazoaux){
-		for(int i=0; i<mazoaux.getCantidadCartas(); i++){
+		while(!mazoaux.isEmpty()){
 			this.cartas.add(mazoaux.getPrimerCarta());
 			mazoaux.removerCarta();
-		}			
+		}		
 	}
 	
-	//Devuelve el tamaño del ArrayList de Carta
+	
 	public int getCantidadCartas(){
 			return this.cartas.size();
 	}
 	
-	//Recibe una Carta y la agrega al Mazo
+
 	public void addCarta(Carta o){
 		if(this.isEmpty())
 			this.cartas.add(o);
@@ -65,36 +61,53 @@ public class Mazo {
 		}
 	}
 
-	//Recibe un int y devuelve un ArrayList con los mazos para cada jugador
+	//
 	public ArrayList<Mazo> repartir(int nroMazos) {
-		// Creo el arreglo de nuevos mazos
 		ArrayList<Mazo> nuevosMazos = new ArrayList<>();
 		for (int i=0;i<nroMazos;i++) {
 			nuevosMazos.add(new Mazo());
 		}
-		// Mientras me queden cartas suficientes para repartir, 1 para cada mazo...
 		while ((this.getCantidadCartas()>=nroMazos)){	
-			// A cada uno de mis nuevos mazos le agrego una carta
 			for (int i=0;i<nroMazos;i++) {
 				nuevosMazos.get(i).addCarta(this.getPrimerCarta());
 				this.removerCarta();
 			}
 		}
-		//Devuelve el ArrayList con tantos mazos como jugadores
 		return nuevosMazos;
 	}
 	
-	//Devuelve true si no quedan cartas en el mazo
+	//
+	private Carta removeCartaRandom(){	
+		return this.cartas.remove((int)(Math.random()*this.cartas.size()));
+	}
+	
+	//
+	public void imprimir(){
+		for(int i=0;i<this.cartas.size();i++)
+			System.out.println(this.cartas.get(i).toString()+"\n");
+		System.out.println("Numero de cartas: "+this.cartas.size());
+		System.out.println("");
+	}
+	
+	//
+	public void barajarMazo(){
+		ArrayList<Carta> aux=new ArrayList<>();
+		while(!this.isEmpty())
+		aux.add(this.removeCartaRandom());
+		this.cartas=aux;
+	}
+	
+	
 	public boolean isEmpty() {
 		return this.getCantidadCartas()==0;
 	}
 	
-	//Le pide a la primer carta el nombre de un atributo
-	public String getAtributoRandom() {
-		return this.getPrimerCarta().getAtributoRandom();
+
+	public String getClave(int a) {
+		return this.getPrimerCarta().getClave(a);
 	}
 	
-	//Devuelve el nombre de la primer carta del mazo
+
 	public String getNombrePrimeraCarta() {
 		return this.getPrimerCarta().getNombre();
 	}

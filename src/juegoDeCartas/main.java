@@ -1,10 +1,8 @@
 package juegoDeCartas;
-
 import java.io.*;
-import java.util.ArrayList;
+import java.util.*;
 
-
-public class main {
+public class Main {
 	public static void main(String[] args) {
 		ArrayList<Carta> cartasCargadas=new ArrayList<>();
 		ArrayList<Atributo> atributos=new ArrayList<>();
@@ -14,9 +12,7 @@ public class main {
 			BufferedReader br = new BufferedReader(isr);
 			String read=br.readLine();
 			while(read!=null){
-			//Separa los valores que esten delimitados por ","
 				String [] valores=read.split(",");
-			//Crea una nueva carta y le asigna el [] de Strings
 				for(int i=1; i<valores.length-2; i=i+3){
 					String valorString=valores[i+1];
 					float valor=Float.parseFloat(valorString);
@@ -36,14 +32,34 @@ public class main {
 				read=br.readLine();
 			}
 			br.close();
-		}catch(Exception e){
+		}catch(Exception e){// aca va algo
 		}
-		System.out.println(cartasCargadas.get(1).getCantidadDeAtributos());
-		System.out.println(cartasCargadas.size());
 		Mazo mazo=new Mazo(cartasCargadas);
 		Jugador j1=new Jugador("S Escribá");
 		Jugador j2=new Jugador("S González");
 		Juego juego=new Juego(j1,j2,mazo);
+		//CREO LAS POCIMAS Y LAS AGREGO AL JUEGO
+		for(int i=0;i<4;i++){
+			PocionFactor p1=new PocionFactor("Kriptonita", (float)0.25);
+			PocionSelectiva p2=new PocionSelectiva("altura", (float)1.25);
+			PocionLimitada p3=new PocionLimitada((float)0.5, (float)0.25);
+			PocionValorFijo p4=new PocionValorFijo((float)45);
+			juego.addPocion(p1);
+			juego.addPocion(p2);
+			juego.addPocion(p3);
+			juego.addPocion(p4);
+		}
+		
+		PocionFactor p1=new PocionFactor("Kriptonita", (float)0.25);
+		PocionSelectiva p2=new PocionSelectiva("altura", (float)1.25);
+		PocionLimitada p3=new PocionLimitada((float)0.5, (float)0.25);
+		PocionValorFijo p4=new PocionValorFijo((float)45);
+		PocionCocktail p5=new PocionCocktail();
+		p5.addPocion(p1);
+		p5.addPocion(p2);
+		p5.addPocion(p4);
+		p5.addPocion(p3);
+		juego.addPocion(p5);
 		juego.jugar();
 	}
 }
